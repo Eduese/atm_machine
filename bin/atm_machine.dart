@@ -21,6 +21,7 @@ class Customer{
   double inputAmount = 0.0; //amount to be entered in any transaction
   late int phoneNumber; //phone number to be recharged with airtime
   late int accountNumber; //
+  late String pin;
 
   void repeatMode() {
     //let the user select the service needed, as below
@@ -32,30 +33,33 @@ class Customer{
     selectTransaction(); // setting the object into action
   }
 
-  void selectTransaction() {
-    late int transaction;
-    //code to check if input isn't integer then give error message
-    while(true) {
-      try {
-        transaction = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
-        break;
-      } catch (e){
-        print ('Wrong input! Please input an integer');
-        }
-    } // error message code ends here
 
-    switch(transaction) { //select a transaction by keying in a digit
+  void selectTransaction() {
+    option = 0;
+    //late int transaction;
+    checkInput();
+    //code to check if input isn't integer then give error message
+    // while(true) {
+    //   try {
+    //     transaction = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+    //     break;
+    //   } catch (e){
+    //     print ('Wrong input! Please input an integer');
+    //     }
+    // } // error message code ends here
+
+    switch(option) { //select a transaction by keying in a digit
       case 1: print("You selected a DEPOSIT service");
       deposit(); // function to help customer deposit
       break;
       case 2: print("You selected a WITHDRAWAL service");
-      withdrawal(); //function to help customer withdraw
+      newWithdrawal(); //function to help customer withdraw
       break;
       case 3: print("You selected a 'CHECK BALANCE' service");
       myBalance(); //function to help customer check balance
       break;
       case 4: print("You selected a TRANSFER service");
-      myTransfer(); //function to help customer transfer to other banks
+      otherBanksTransfer(); //function to help customer transfer to other banks
       break;
       case 5: print("You selected a PHONE AIRTIME service");
       myAirtime(); //function to help customer load airtime
@@ -67,32 +71,39 @@ class Customer{
       changePin(); //function to help customer change PIN
       break;
 
-      default: print("That's a wrong input");
+      default: print("Your inputs were wrong");
       doMore(); //function to give customer another chance if input is wrong
     }
   }
 
   void doMore() {
-    print("Press any digit for further transaction, Press 0 to end all transactions.");
-    late int option;
+    print("");
+    print("Press 1 for further transaction, Press 0 to end all transactions.");
+    checkInput();
+    //late int option;
     //code to output error message with non-integer input
-    while(true) {
-      try {
-        option = int.parse(stdin.readLineSync()!);
-        break;
-      } catch (e){
-        print ('Please input an integer');
-      }
-    }
+    // while(true) {
+    //   try {
+    //     option = int.parse(stdin.readLineSync()!);
+    //     break;
+    //   } catch (e){
+    //     print ('Please input an integer');
+    //   }
+    // }
 
     switch(option) {
 
       case 0: print("Thank you for choosing Data Bank");
         break;
 
-      default: print("You selected an option for further transaction");
-      print(""); //just a vertical line between two spaces
-      repeatMode();
+      case 1: print(""); //just a vertical line between two spaces
+        repeatMode();
+        break;
+
+      default: print("Sorry, that's a wrong input, goodbye");
+      //checkInput();
+      break;
+
     }
   }
 
@@ -119,24 +130,37 @@ class Customer{
     stdout.writeln("Please key in the amount to be withdrawn \n");
     //balanceCheck();
     //inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
-    while(true) {
+    late int p = 0;
+    for (p; p <= 3; p++) {
       try {
-        inputAmount = double.parse(stdin.readLineSync()!);
+        inputAmount = double.parse(stdin.readLineSync()!); // amount to be withdrawn
+        if(inputAmount > balance) { //check for balance against input amount
+          print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
+          //doMore();
+        } else {
+          balance = balance - inputAmount;
+          print("You have withdrawn N$inputAmount");
+          print("Your transaction is successful, \nYour new balance is $balance");
+          //doMore();
+        }
         break;
-      } catch (e){
-        print ('Please input an integer');
-
+      } catch (e){ // check if input is non-integer
+        if(p == 1) {
+          print("You have ONE MORE chance left \n");
+          //break;
+        }
+        if(p == 2) {
+          print("You've exceeded number of input times");
+          break;
+        }
+        print ('Please input an integer value');
+        //break;
       }
+
     }
-    if(inputAmount > balance) {
-      print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
-      doMore();
-    } else {
-      balance = balance - inputAmount;
-      print("You have withdrawn N$inputAmount");
-      print("Your transaction is successful, \n Your new balance is $balance");
-      doMore();
-    }
+
+    doMore();
+
   }
 
   void myBalance() {
@@ -210,32 +234,72 @@ class Customer{
         print("Please input an integer or double amount");
       }
     }
-    if(inputAmount > balance) {
-      print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
-      doMore();
-    } else {
-      balance = balance - inputAmount;
-      print("Succesful transaction");
 
-    }
   }
 
-  void checkInput() {
-    //print("Please input your old PIN ");
-    while(true) {
+  void checkInputs() {
+    int r = 1;
+    for (r; r <= 3; r++) {
       try {
         option = int.parse(stdin.readLineSync()!); // collects the PIN input value
         break;
       } catch(e) {
-        print("please input your correct old PIN");
+        if(r == 1) {
+          print("You have ONE MORE chance left \n");
+          //break;
+        }
+        if(r == 2) {
+          print("You've exceeded number of input times");
+          break;
+        }
+        print("please input the correct option value");
       }
     }
+    //print("Please input your old PIN ");
+    // while(true) {
+    //   try {
+    //     option = int.parse(stdin.readLineSync()!); // collects the PIN input value
+    //     break;
+    //   } catch(e) {
+    //     print("Please make the correct SELECTION or INPUT");
+    //   }
+    // }
   }
+  void checkInput() {
+    print("Please select any option above \n");
+    //balanceCheck();
+    //inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
+    int p = 0;
+    for (p; p <= 3; p++) {
+      try {
+        option = int.parse(stdin.readLineSync()!); // collects the PIN input value
+        break;
+      } catch(e) { // check if input is non-integer
+        if(p == 1) {
+          print("You have only ONE chance left \n");
+          //break;
+        }
+        if(p == 2) {
+          print("You've exceeded THE number of input times");
+          break;
+        }
+        print ('Please input an integer value');
+        //break;
+      }
+
+    }
+
+    //doMore();
+
+  }
+
+
 
   void changePin() { //checks PIN input and gives a corresponding response
     //late int pin;
     print("Please input your old PIN ");
-    checkInput();
+    pin = stdin.readLineSync()!; // collects the PIN input value
+    //checkInput();
     // while(true) {
     //   try {
     //     pin = int.parse(stdin.readLineSync()!); // collects the PIN input value
@@ -244,22 +308,22 @@ class Customer{
     //     print("please input your correct old PIN");
     //   }
     // }
-    if (option != 2345) {
+    if (pin != '2345') {
       print("Incorrect! Please input your correct old PIN ");
-      checkInput();
-      //pin = int.parse(stdin.readLineSync()!); // collects the PIN input value
+      //checkInput();
+      pin = stdin.readLineSync()!; // collects the PIN input value
 
-          if (option != 2345) {
+          if (pin != '2345') {
             print("Incorrect old PIN, please try again ");
-            checkInput();
-            //pin = int.parse(stdin.readLineSync()!); // collects the PIN input value
+            //checkInput();
+            pin = stdin.readLineSync()!; // collects the PIN input value
 
-              if (option != 2345) {
+              if (pin != '2345') {
                 print("Incorrect! You have one chance left. Input old PIN ");
-                checkInput();
-                //pin = int.parse(stdin.readLineSync()!); // collects the PIN input value
+                //checkInput();
+                pin = stdin.readLineSync()!; // collects the PIN input value
 
-                  if (option != 2345) {
+                  if (pin != '2345') {
                     print("Your card is blocked.Please visit your local bank branch");
 
                   } else {
@@ -279,7 +343,7 @@ class Customer{
 
 
 
-  void myTransfer() {
+  void otherBanksTransfer() {
     print("Please select the bank you wish to transfer to");
     print("1 - ABE Bank;    2 - GO bank;     3 - Hope Bank ;    "
         "\n\n4 - Ibom Finance;   5 - PHd Bank;  6 - Bakassi Money;"
@@ -331,9 +395,9 @@ class Customer{
   }
 
   correctPin() {
-    late int pin;
+    String pin;
     print("Please input your new PIN ");
-    pin = int.parse(stdin.readLineSync()!); // collects the PIN input value
+    pin = stdin.readLineSync()!; // collects the PIN input value
     print("You have successfully changed your PIN, \nYour new PIN is $pin");
     doMore();
   }
@@ -342,21 +406,21 @@ class Customer{
     print("Welcome to Quickteller services. Key in the service you want.");
     print("1 - BILL PAYMENT;    2 - PHONE AIRTIME;    3 - TRANSFER;    "
         "\n\n4 - REMITTA");
-    int? selection = int.parse(stdin.readLineSync()!);
+    String selection = stdin.readLineSync()!;
     switch (selection) {
-      case 1:
+      case '1':
         print("This option is to make BILL payments");
         billPayment();
         break;
-      case 2:
+      case '2':
         print("This option is to recharge your call airtime");
         myAirtime(); //function to hep customer withdraw
         break;
-      case 3:
+      case '3':
         print("This option is to TRANSFER money");
-        myTransfer();
+        otherBanksTransfer();
         break;
-      case 4:
+      case '4':
         print("You selected REMITTA payment tool");
         print("Please input your RRR code");
         String? rrr = stdin.readLineSync(); // collects the RRR input value
@@ -364,7 +428,7 @@ class Customer{
         transfer(); //ADD FUNCTION that would do this;
         break;
 
-      default: print("That's a wrong input");
+      default: print("INPUT value is not in the OPTIONS");
       doMore();
     }
   }
@@ -372,33 +436,75 @@ class Customer{
   billPayment() {
     print("Welcome, select the bill you want to pay for");
     print("1 - DSTV;    2 - GoTV;    3 - PHEDC ");
-    int? selection = int.parse(stdin.readLineSync()!);
-    switch (selection) {
+    checkInput();
+    //String selection = stdin.readLineSync()!;
+    switch (option) {
       case 1:
         print("You selected an option to make DSTV payment");
         print("Please input your DSTV IUC number");
         String? iuc = stdin.readLineSync();
         print("Your IUC number is $iuc");
-        transfer();
+        print("please select the bank of DSTV below");
+        otherBanksTransfer(); // function to hep customer do online payment
         break;
       case 2:
         print("You selected an option for GOTV payment");
         print("Please input your GoTV IUC number");
         String? iuc = stdin.readLineSync();
         print("Your IUC number is $iuc");
-        transfer(); //function to hep customer withdraw
+        print("please select the bank for GoTV below");
+        otherBanksTransfer(); //function to hep customer do online payment
         break;
       case 3:
         print("This option is for PHEDC (electricity) bill payment");
-        print("Please input your PHEDC account number");
-        int? phedc = int.parse(stdin.readLineSync()!);
-        print("Your IUC number is $phedc");
-        transfer();
+        print("Please input your PHEDC customer number");
+        String phedc = stdin.readLineSync()!;
+        print("Your PHEDC number is $phedc");
+        print("please select the bank of PHEDC below");
+        otherBanksTransfer(); // function to hep customer do online payment
         break;
 
-      default: print("That's a wrong input");
+      default: print("That INPUT is not in the OPTIONS");
       doMore();
     }
+  }
+
+  void newWithdrawal() {
+    stdout.writeln("Please key in the amount to be withdrawn \n");
+    //balanceCheck();
+    //inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
+    late int p = 0;
+    for (p; p <= 3; p++) {
+      try {
+        inputAmount = double.parse(stdin.readLineSync()!); // amount to be withdrawn
+        if(inputAmount > balance) { //check for balance against input amount
+          print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
+          //doMore();
+        } else {
+          balance = balance - inputAmount;
+          print("You have withdrawn N$inputAmount");
+          print("Your transaction is successful, \nYour new balance is $balance");
+          //doMore();
+        }
+        break;
+      } catch (e){ // check if input is non-integer
+        print("Tha is not an integer");
+        if(p == 1) {
+          print("You have ONE MORE chance left \n");
+          //break;
+        }
+        if(p == 2) {
+          print("You've exceeded number of input times");
+          break;
+        }
+        //**print ('Please input an integer value');
+        //break;
+      }
+
+    }
+
+    doMore();
+
   }
 
 
