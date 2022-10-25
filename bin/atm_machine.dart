@@ -7,6 +7,9 @@ import 'package:atm_machine/atm_machine.dart' as atm_machine;
 * 1 - DEPOSIT;    2 - WITHDRAWAL;     3 - CHECK BALANCE;  4 - TRANSFER;
 *  5 - PHONE AIRTIME;  6 - BILL PAYMENT;  7 - QUICK TELLER;  8 - CHANGE PIN");
 **/
+/* At this level I took care of the -ve value during DEPOSITS
+* I need to make sure the letter "E" or "e" no more interpreted to mean 10 raised to power
+* as i noticed that 45e1 is interpreted as 45 x 10 which = 450 */
 
 void main(List<String> arguments) {
 
@@ -71,7 +74,7 @@ class Customer{
       changePin(); //function to help customer change PIN
       break;
 
-      default: print("Your inputs were wrong");
+      default: print("Your input were wrong");
       doMore(); //function to give customer another chance if input is wrong
     }
   }
@@ -111,17 +114,32 @@ class Customer{
   void deposit() {
     stdout.writeln("Please key in the amount to be deposited");
     //late double inputAmount; // collects the input value
-    //checkInput();
-    while(true) {
+
+    int p = 0;
+    //check if input is not a +ve integer or double amount
+    while(p < 3) {
       try {
         inputAmount = double.parse(stdin.readLineSync()!);
+        if (inputAmount < 0) {
+          print("Negative input not allowed");
+          break;
+          deposit();
+        } else {
+          balance = balance + inputAmount;
+        }
+        print("You deposited $inputAmount \nYour new balance is $balance");
         break;
-      } catch (e){
+      }   catch (e){
+            if (p == 2) {
+              print("You have exceeded your trial times");
+              break;
+        }
+            p += 1;
         print ('Please input an integer or a double amount');
+
       }
+
     }
-    balance = balance + inputAmount;
-    print("You deposited $inputAmount \nYour new balance is $balance");
 
     doMore();
   }
@@ -134,6 +152,10 @@ class Customer{
     for (p; p <= 3; p++) {
       try {
         inputAmount = double.parse(stdin.readLineSync()!); // amount to be withdrawn
+        if (inputAmount < 0) {
+          print("Negative input not allowed");
+          withdrawal();
+        }
         if(inputAmount > balance) { //check for balance against input amount
           print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
           //doMore();
@@ -145,20 +167,18 @@ class Customer{
         }
         break;
       } catch (e){ // check if input is non-integer
-        if(p == 1) {
-          print("You have ONE MORE chance left \n");
-          //break;
+          if(p == 1) {
+            print("You have ONE MORE chance left \n");
+            //break;
         }
-        if(p == 2) {
-          print("You've exceeded number of input times");
-          break;
+          if(p == 2) {
+            print("You've exceeded number of input times");
+            break;
         }
         print ('Please input an integer value');
         //break;
       }
-
     }
-
     doMore();
 
   }
@@ -201,6 +221,10 @@ class Customer{
     while(true) {
       try {
         phoneNumber = int.parse(stdin.readLineSync()!);
+        // if (phoneNumber < 0) {
+        //   print("Negative input not allowed");
+        //   myAirtime();
+        // }
         break;
       } catch(e) {
         print("That is not a phone number");
@@ -229,6 +253,10 @@ class Customer{
     while(true) {
       try{
         inputAmount = double.parse(stdin.readLineSync()!);
+        // if (inputAmount < 0) {
+        //   print("Negative input not allowed");
+        //   newWithdrawal();
+        // }
         break;
         } catch (e) {
         print("Please input an integer or double amount");
@@ -470,13 +498,19 @@ class Customer{
   }
 
   void newWithdrawal() {
-    stdout.writeln("Please key in the amount to be withdrawn \n");
+    stdout.writeln("Key in the amount to be withdrawn \n");
+
     //balanceCheck();
     //inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
     late int p = 0;
     for (p; p <= 3; p++) {
       try {
         inputAmount = double.parse(stdin.readLineSync()!); // amount to be withdrawn
+        if (inputAmount < 0) {
+          print("Negative input not allowed");
+          newWithdrawal();
+        }
+
         if(inputAmount > balance) { //check for balance against input amount
           print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
           //doMore();
