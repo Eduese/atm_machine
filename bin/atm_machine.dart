@@ -80,40 +80,171 @@ class Customer{
   }
 
   void doMore() {
+    /*DONE
+    * Code is to check
+    * */
     print("");
     print("Press 1 for further transaction, Press 0 to end all transactions.");
     checkInput();
-    //late int option;
-    //code to output error message with non-integer input
-    // while(true) {
-    //   try {
-    //     option = int.parse(stdin.readLineSync()!);
-    //     break;
-    //   } catch (e){
-    //     print ('Please input an integer');
-    //   }
-    // }
 
-    switch(option) {
+    switch(option) { //
 
       case 0: print("Thank you for choosing Data Bank");
         break;
-
       case 1: print(""); //just a vertical line between two spaces
         repeatMode();
         break;
-
-      default: print("Sorry, that's a wrong input, goodbye");
-      //checkInput();
-      break;
-
-    }
+      default:
+        print("That's wrong. Input the correct code");
+        defaultCheckers();
+          // int p = 0;
+          //     for(p; p < 3; p++) {
+          //       int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+          //       if (input != 0 || input != 1 ) {
+          //         if (p == 0) {
+          //           print("Wrong entry. Please enter the correct input");
+          //         }
+          //           if (p == 1) {
+          //             print("You have one chance left. Enter the correct input");
+          //             //doMore();
+          //           }
+          //           if (p == 2) {
+          //             print("Wrong Input. Thanks for chosing Data Bank. Good Bye!");
+          //             break;
+          //             }
+          //         }
+          //     }
+      }
   }
+
+      void defaultCheckers() {
+        print("Please input 0 or 1");
+        int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+        int p = 0;
+
+        //if (input != 0 || input != 1) {
+          for(p; p < 2; p++) {
+
+            try {
+              input =
+                      int.parse(stdin.readLineSync()!); // amount to be withdrawn
+              if (input < 0) {
+                print("Negative inputs are not allowed");
+                //break;
+              }
+              if (input > 0) {
+                print("Please input 0 or 1");
+                //break;
+                if (p == 0) {
+                  print("You have only one chance left");
+                  //break;
+                }
+                else if (p == 1) {
+                  print("Your transactions have been terminated");
+                  break;
+                  doMore();
+                }
+              }
+
+
+              break;
+            } catch (e) { // check if input is non-integer
+              print("That is not an integer");
+              if (p == 0) {
+                print("You have ONE MORE chance left \n");
+                //break;
+              }
+              if (p == 1) {
+                print("Your transactions have been terminated");
+                break;
+              }
+              //**print ('Please input an integer value');
+              //break;
+            }
+
+            // print("Please input 0 or 1");
+            // input = int.parse(stdin.readLineSync()!);
+            //     if (p == 0) {
+            //       print("You have only one chance left");
+            //       //break;
+            //     }
+            //     else if (p == 1) {
+            //       print("Your transactions have been terminated");
+            //       break;
+            //       doMore();
+            //     }
+          }
+  }
+
+
+
+
+  void defaultChecker() {
+        int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+        int p = 0;
+
+        for(p; p < 2; p++) {
+              if (input != 0 || input != 1) {
+                print("Wrong input. Please input 0 or 1");
+                input = int.parse(stdin.readLineSync()!);
+
+                if (input == 0) {
+                  print("You have chosen to end all transactions");
+                  break;
+                }
+                if (input == 1) {
+                  print("You have chosen to continue to do more");
+                  doMore();
+                }
+
+              }
+
+        }
+
+      }
+
+
+
+
+  // void defaultchecker() {
+  //   int p = 0;
+  //       //for(p; p < 3; p++) {
+  //         int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+  //         if (input != 0 || input != 1 ) {
+  //           if (p == 0) {
+  //             print("Wrong entry. Please enter the correct input");
+  //             int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
+  //             if (input != 0) {
+  //               print("You've chosen to end all transactions. Good Bye");
+  //               break;
+  //             }
+  //           }
+  //             if (p == 1) {
+  //               print("You have one chance left. Enter the correct input");
+  //               //doMore();
+  //             }
+  //             if (p == 2) {
+  //               print("Wrong Input. Thanks for chosing Data Bank. Good Bye!");
+  //               break;
+  //               }
+  //           } else if (input == 0) {
+  //           print("You've chosen to end all transactions. Good Bye");
+  //           break;
+  //         } else if (input ==1) {
+  //             repeatMode();
+  //         } else {
+  //           print("Thank you for chosing us");
+  //           break;
+  //         }
+  //       //}
+  // }
+
 
 
   void deposit() {
     stdout.writeln("Please key in the amount to be deposited");
     //late double inputAmount; // collects the input value
+    //double b = RegExp(r'^[0-9]+$').hasMatch(b);
 
     int p = 0;
     //check if input is not a +ve integer or double amount
@@ -125,7 +256,7 @@ class Customer{
           break;
           deposit();
         } else {
-          balance = balance + inputAmount;
+          balance += inputAmount;
         }
         print("You deposited $inputAmount \nYour new balance is $balance");
         break;
@@ -138,9 +269,7 @@ class Customer{
         print ('Please input an integer or a double amount');
 
       }
-
     }
-
     doMore();
   }
 
@@ -159,12 +288,13 @@ class Customer{
         if(inputAmount > balance) { //check for balance against input amount
           print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
           //doMore();
-        } else {
-          balance = balance - inputAmount;
-          print("You have withdrawn N$inputAmount");
-          print("Your transaction is successful, \nYour new balance is $balance");
-          //doMore();
         }
+        // else {
+        //   balance -= inputAmount;
+        //   print("You have withdrawn N$inputAmount");
+        //   print("Your transaction is successful, \nYour new balance is $balance");
+        //   //doMore();
+        // }
         break;
       } catch (e){ // check if input is non-integer
           if(p == 1) {
@@ -189,31 +319,32 @@ class Customer{
   }
 
   void transfer() {
-    print("Please input the recipient account number");
+    print("Input the recipient account number");
     //int accountNumber;
     while(true) {
       try {
         accountNumber = int.parse(stdin.readLineSync()!);
         break;
       } catch (e){
-        print ('Please input the correct account number');
+        print ('Input the correct account number');
       }
     }
 
-    print("Please input the amount to transfer ");
-    balanceCheck();
+    print("Input the amount to transfer ");
+    //balanceCheck();
     //inputAmount;
 
     // inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
-    // if(inputAmount > balance) {
-    //   print("You can't do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
-    //   doMore();
-    // } else {
-    //   balance = balance - inputAmount;
-    //   print(
-    //       "Your transfer to $accountNumber is successful, \n Your new balance is N$balance");
-    //   doMore();
-    // }
+
+    if(inputAmount > balance) {
+      print("You can't do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
+      doMore();
+    } else {
+      balance = balance - inputAmount;
+      print(
+          "Your transfer to $accountNumber is successful, \n Your new balance is N$balance");
+      doMore();
+    }
   }
 
   void myAirtime() {
@@ -221,10 +352,10 @@ class Customer{
     while(true) {
       try {
         phoneNumber = int.parse(stdin.readLineSync()!);
-        // if (phoneNumber < 0) {
-        //   print("Negative input not allowed");
-        //   myAirtime();
-        // }
+          if (phoneNumber < 0) {
+             print("Negative input not allowed");
+             myAirtime();
+             }
         break;
       } catch(e) {
         print("That is not a phone number");
@@ -248,20 +379,62 @@ class Customer{
 
 
   void balanceCheck() { //to check if input amount > balance
-
+    int p = 0;
     //inputAmount = double.parse(stdin.readLineSync()!);// collects the input value
-    while(true) {
-      try{
-        inputAmount = double.parse(stdin.readLineSync()!);
-        // if (inputAmount < 0) {
-        //   print("Negative input not allowed");
-        //   newWithdrawal();
-        // }
+    while(p < 3) {
+      //   try{
+      //     inputAmount = double.parse(stdin.readLineSync()!);
+      //        if (inputAmount < 0) {
+      //          print("Negative input not allowed");
+      //          newWithdrawal();
+      //        }
+      //        // else {
+      //        //   newWithdrawal()
+      //        //   balance += inputAmount ;
+      //        //   print("You transferred $inputAmount to $accountNumber");
+      //        //     print("New banace is $balance");
+      //        // }
+      //     break;
+      //     } catch (e) {
+      //     print("Please input an integer or double amount");
+      //   }
+      // }
+      try {
+        inputAmount =
+            double.parse(stdin.readLineSync()!); // amount to be withdrawn
+        if (inputAmount < 0) {
+          print("Negative inputs are not allowed");
+          transfer();
+        }
+
+        if (inputAmount > balance) { //check for balance against input amount
+          print(
+              "You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
+              doMore();
+        } else {
+          //balance -= inputAmount;
+          //print("You have withdrawn N$inputAmount");
+
+          //print("Your transaction is successful, \nYour new balance is $balance");
+          //doMore();
+        }
         break;
-        } catch (e) {
-        print("Please input an integer or double amount");
+      } catch (e) { // check if input is non-integer
+        print("Tha is not an integer");
+        if (p == 1) {
+          print("You have ONE MORE chance left \n");
+          //break;
+        }
+        if (p == 2) {
+          print("You've exceeded number of input times");
+          break;
+        }
+        //**print ('Please input an integer value');
+        //break;
       }
     }
+
+  doMore();
 
   }
 
@@ -515,7 +688,7 @@ class Customer{
           print("You cannot do this transaction, your input of N$inputAmount is greater than your balance of N$balance");
           //doMore();
         } else {
-          balance = balance - inputAmount;
+          balance -= inputAmount;
           print("You have withdrawn N$inputAmount");
           print("Your transaction is successful, \nYour new balance is $balance");
           //doMore();
