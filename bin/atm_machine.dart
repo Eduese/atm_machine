@@ -248,12 +248,25 @@ class Customer{
         inputAmount = double.parse(stdin.readLineSync()!);
         if (inputAmount < 0) {
           print("Negative numbers not allowed. Integers or double only");
+          if (p == 1) {
+            print("One chance left");
+          }
+          if (p == 2) {
+            print("Exceeded limit");
+          }
         } else {
           balance += inputAmount;
           print("You deposited $inputAmount. Your new balance is $balance");
+          break;
         }
       } catch (e) {
         print("Only integers or double numbers permitted");
+        if (p == 1) {
+          print("One chance left");
+        }
+        if (p == 2) {
+          print("Exceed limit");
+        }
       }
     }
   }
