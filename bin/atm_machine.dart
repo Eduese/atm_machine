@@ -96,7 +96,7 @@ class Customer{
         break;
       default:
         print("That's wrong. Input the correct code");
-        defaultCheckers();
+        checkInput2();
           // int p = 0;
           //     for(p; p < 3; p++) {
           //       int input = int.parse(stdin.readLineSync()!); // select the transaction you want to carry out
@@ -125,45 +125,16 @@ class Customer{
         //if (input != 0 || input != 1) {
           for(p; p < 2; p++) {
 
-            try {
-              input =
-                      int.parse(stdin.readLineSync()!); // amount to be withdrawn
-              if (input < 0) {
-                print("Negative inputs are not allowed");
-                //break;
-              }
-              if (input > 0) {
-                print("Please input 0 or 1");
-                //break;
-                if (p == 0) {
-                  print("You have only one chance left");
-                  //break;
-                }
-                else if (p == 1) {
-                  print("Your transactions have been terminated");
-                  break;
-                  doMore();
-                }
-              }
-
-
-              break;
-            } catch (e) { // check if input is non-integer
-              print("That is not an integer");
-              if (p == 0) {
-                print("You have ONE MORE chance left \n");
-                //break;
-              }
-              if (p == 1) {
-                print("Your transactions have been terminated");
-                break;
-              }
-              //**print ('Please input an integer value');
-              //break;
-            }
-
-            // print("Please input 0 or 1");
-            // input = int.parse(stdin.readLineSync()!);
+            // try {
+            //   input =
+            //           int.parse(stdin.readLineSync()!); // amount to be withdrawn
+            //   if (input < 0) {
+            //     print("Negative inputs are not allowed");
+            //     //break;
+            //   }
+            //   if (input > 0) {
+            //     print("Please input 0 or 1");
+            //     //break;
             //     if (p == 0) {
             //       print("You have only one chance left");
             //       //break;
@@ -173,6 +144,36 @@ class Customer{
             //       break;
             //       doMore();
             //     }
+            //   }
+            //
+            //
+            //   break;
+            // } catch (e) { // check if input is non-integer
+            //   print("That is not an integer");
+            //   if (p == 0) {
+            //     print("You have ONE MORE chance left \n");
+            //     //break;
+            //   }
+            //   if (p == 1) {
+            //     print("Your transactions have been terminated");
+            //     break;
+            //   }
+            //   //**print ('Please input an integer value');
+            //   //break;
+            // }
+
+            print("Please input 0 or 1");
+            input = int.parse(stdin.readLineSync()!);
+            checkInput2();
+                if (p == 0) {
+                  print("You have only one chance left");
+                  //break;
+                }
+                else if (p == 1) {
+                  print("Your transactions have been terminated");
+                  break;
+                  doMore();
+                }
           }
   }
 
@@ -239,39 +240,68 @@ class Customer{
   //       //}
   // }
 
-
-
   void deposit() {
-    stdout.writeln("Please key in the amount to be deposited");
-    //late double inputAmount; // collects the input value
-    //double b = RegExp(r'^[0-9]+$').hasMatch(b);
-
+    stdout.writeln('Please key in amount to be deposited');
     int p = 0;
-    //check if input is not a +ve integer or double amount
-    while(p < 3) {
+    for(p; p < 3; p++) {
       try {
         inputAmount = double.parse(stdin.readLineSync()!);
         if (inputAmount < 0) {
-          print("Negative input not allowed");
-          break;
-          deposit();
+          print("Negative numbers not allowed. Integers or double only");
         } else {
           balance += inputAmount;
+          print("You deposited $inputAmount. Your new balance is $balance");
         }
-        print("You deposited $inputAmount \nYour new balance is $balance");
-        break;
-      }   catch (e){
-            if (p == 2) {
-              print("You have exceeded your trial times");
-              break;
-        }
-            p += 1;
-        print ('Please input an integer or a double amount');
-
+      } catch (e) {
+        print("Only integers or double numbers permitted");
       }
     }
-    doMore();
   }
+
+  // void deposit() {
+  //   stdout.writeln("Please key in the amount to be deposited");
+  //   //late double inputAmount; // collects the input value
+  //   //double b = RegExp(r'^[0-9]+$').hasMatch(b);
+  //
+  //   int p = 0;
+  //   //check if input is not a +ve integer or double amount
+  //   while(p < 3) {
+  //     try {
+  //       inputAmount = double.parse(stdin.readLineSync()!);
+  //       //p += 1;
+  //       if (inputAmount < 0) {
+  //         //p += 1;
+  //         if (p == 1) {
+  //           print("You have one chance left");
+  //         }
+  //         if (p == 2) {
+  //           print("You have exceeded your trial times");
+  //           print("p is $p");
+  //           break;
+  //         }
+  //         p += 1;
+  //         print("Negative input not allowed");
+  //         deposit();
+  //       } else {
+  //         balance += inputAmount;
+  //       }
+  //       print("You deposited $inputAmount \nYour new balance is $balance");
+  //       break;
+  //     }   catch (e){
+  //           if (p == 1) {
+  //             print("You have one chance left");
+  //           }
+  //           if (p == 2) {
+  //             print("You have exceeded your trial times");
+  //             break;
+  //       }
+  //           p += 1;
+  //       print ('Only an integer or a double amount permitted');
+  //
+  //     }
+  //   }
+  //   doMore();
+  // }
 
   void withdrawal() {
     stdout.writeln("Please key in the amount to be withdrawn \n");
@@ -455,6 +485,7 @@ class Customer{
         }
         print("please input the correct option value");
       }
+
     }
     //print("Please input your old PIN ");
     // while(true) {
@@ -466,6 +497,46 @@ class Customer{
     //   }
     // }
   }
+
+  void checkInput2() {
+  int p = 0;
+  //check if input is not a +ve integer or double amount
+  for (p; p < 3; p++) {
+  try {
+  int input = int.parse(stdin.readLineSync()!);
+  if (input < 0) {
+  print("Negative input not allowed. Input 0 or 1 ");
+  //break;
+  } else if (input > 1) {
+  print("Input only 0 or 1");
+  if (p == 1) {
+    print("One time remains");
+  }
+  }
+  if (input == 1) {
+    doMore();
+  }// else {
+  //   break;
+  // }
+  //print("You deposited $inputAmount \nYour new balance is $balance");
+  //break;
+    if (p == 1) {
+      print("One time remains");
+    }
+  }   catch (e){
+  if (p == 2) {
+  print("You have exceeded your trial times");
+  break;
+  }
+  //p += 1;
+  print ('Please, only integer 0 or 1 needed');
+
+  }
+  }
+  }
+
+
+
   void checkInput() {
     print("Please select any option above \n");
     //balanceCheck();
@@ -474,6 +545,10 @@ class Customer{
     for (p; p <= 3; p++) {
       try {
         option = int.parse(stdin.readLineSync()!); // collects the PIN input value
+        if (inputAmount < 0) {
+          print("Negative inputs are not allowed");
+          checkInput();
+        }
         break;
       } catch(e) { // check if input is non-integer
         if(p == 1) {
@@ -484,7 +559,7 @@ class Customer{
           print("You've exceeded THE number of input times");
           break;
         }
-        print ('Please input an integer value');
+        print ('Please input an integeR value');
         //break;
       }
 
