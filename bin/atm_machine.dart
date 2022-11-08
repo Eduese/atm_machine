@@ -240,58 +240,74 @@ class Customer{
   //       //}
   // }
 
-  void deposit() { // to enable customers make deposits
-    stdout.writeln('Please key in amount to be deposited');
+  void deposit() {
     int p = 0;
-    for(p; p < 3; p++) { // only 3 times of erroneous entries allowed
-      try {
+    // to enable customers make deposits
+    stdout.writeln('Please key in amount to be deposited');
+    try {
+      for(p; p<= 3; p++) {
         inputAmount = double.parse(stdin.readLineSync()!);
-        if (inputAmount < 0) { //checking for negative entries
-          print("Negative numbers not allowed. Integers or double only");
+        if (inputAmount >= 0) {
+          balance += inputAmount;
+          print("You deposited $inputAmount. Your new balance is $balance");
+          break;
+          } else  { //checking for negative entries
+              print("Negative numbers not allowed. Integers or double only");
+              if (p == 2) {
+                print("One chance left");
+              }
+              if (p == 3) {
+                print("Exceeded limit");
+              }
+            }
+          }
+        } catch (e) {
+          stdout.writeln('Please key in the correct entry');
+          for (p; p < 3; p++) { // only 3 times of erroneous entries allowed
+            try {
+              inputAmount = double.parse(stdin.readLineSync()!);
+
+              if (inputAmount < 0) { //checking for negative entries
+                print("Negative numbers not allowed. Integers or double only");
+                if (p == 1) {
+                  print("One chance left");
+                }
+                if (p == 2) {
+                  print("Exceeded limit");
+                }
+              }
+
+        } catch (e) { // checking for alphabbets
+          print("Only integers or double numbers permitted");
           if (p == 1) {
             print("One chance left");
           }
           if (p == 2) {
-            print("Exceeded limit");
+            print("End of Limit");
           }
-        } else {
-          balance += inputAmount;
-          print("You deposited $inputAmount. Your new balance is $balance");
-          doMore();
-          break;
-        }
-      } catch (e) { // checking for alphabbets
-        print("Only integers or double numbers permitted");
-        if (p == 1) {
-          print("One chance left");
-        }
-        if (p == 2) {
-          print("Exceed limit");
         }
       }
     }
   }
 
+
   void withdrawals() {
-    stdout.writeln("Enter amount to be withdrawn \n");
+    stdout.writeln("Enter amount to withdraw, transfer or load airtime. \n");
     //try {
       inputAmount = double.parse(stdin.readLineSync()!);
+      if(inputAmount >= balance) {
+      balance -= inputAmount;
+      print("You've withdrawn $inputAmount, your balance is $balance");
+      //doMore();
+      }
       if(inputAmount < 0) { // check if inputAmount is less than 0
-        print("Negative inputs not allowed");
+        print("Negative entries not allowed");
       }
       else if(inputAmount < balance) { // check if inputAmount is less than balance
         print("Your $inputAmount, is less than your balance of $balance.");
         //doMore();
-      } else if(inputAmount >= balance) {
-        balance -= inputAmount;
-        print("You've withdrawn $inputAmount, your balance is $balance");
-        //doMore();
       }
-        else if(inputAmount < 0) {
-          balance -= inputAmount;
-          print("You've withdrawn $inputAmount, your balance is $balance");
-          //doMore();
-        }
+
     //} catch(e) {
 
     //}
