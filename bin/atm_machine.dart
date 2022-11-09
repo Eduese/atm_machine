@@ -25,6 +25,7 @@ class Customer{
   late int phoneNumber; //phone number to be recharged with airtime
   late int accountNumber; //
   late String pin;
+  int p = 0;
 
   void repeatMode() {
     //let the user select the service needed, as below
@@ -241,7 +242,6 @@ class Customer{
   // }
 
   void deposit() {
-    int p = 0;
     // to enable customers make deposits
     stdout.writeln('Please key in amount to be deposited');
     try {
@@ -249,41 +249,42 @@ class Customer{
         inputAmount = double.parse(stdin.readLineSync()!);
         if (inputAmount >= 0) {
           balance += inputAmount;
-          print("You deposited $inputAmount. Your new balance is $balance");
+          print("You deposited $inputAmount. New balance is $balance, P is $p");
+          doMore();
           break;
           } else  { //checking for negative entries
-              print("Negative numbers not allowed. Integers or double only");
+              print("Negative inputs not allowed, P is $p.");
               if (p == 2) {
-                print("One chance left");
+                print("Just one chance left, P is $p");
               }
               if (p == 3) {
-                print("Exceeded limit");
+                print("Exceeded limit, P is $p");
               }
             }
           }
         } catch (e) {
-          stdout.writeln('Please key in the correct entry');
+          stdout.writeln('Please key in the correct entry, P is $p');
           for (p; p < 3; p++) { // only 3 times of erroneous entries allowed
             try {
               inputAmount = double.parse(stdin.readLineSync()!);
 
               if (inputAmount < 0) { //checking for negative entries
-                print("Negative numbers not allowed. Integers or double only");
-                if (p == 1) {
-                  print("One chance left");
-                }
+                print("Negative numbers not allowed. Integers or double only, P is $p");
                 if (p == 2) {
-                  print("Exceeded limit");
+                  print("You have one chance left, P is $p");
+                }
+                if (p == 3) {
+                  print("Exceeded limit, P is $p");
                 }
               }
 
         } catch (e) { // checking for alphabbets
-          print("Only integers or double numbers permitted");
+          print("Only integers or double numbers permitted, P is $p");
           if (p == 1) {
-            print("One chance left");
+            print("One chance left, P is $p.");
           }
           if (p == 2) {
-            print("End of Limit");
+            print("End of Limit, P is $p");
           }
         }
       }
